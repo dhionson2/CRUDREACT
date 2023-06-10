@@ -1,12 +1,22 @@
-import firebase from "firebase";
-import 'firebase/firebase-storage'
+import firebase from "firebase/app";
+import "firebase/firestore";
+import firebaseConfig from "./ConfigFirebase";
 
-if(!firebase.apps.length){
-    firebase.initializeApp({
-        apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-        authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-        projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    })
+// Inicialize o Firebase
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
 }
 
-export default firebase
+// Agora você pode usar o Firestore
+const db = firebase.firestore();
+
+// Exemplo de uso: obter documentos de uma coleção
+db.collection("suaColecao").get()
+  .then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      console.log(doc.id, " => ", doc.data());
+    });
+  })
+  .catch((error) => {
+    console.log("Erro ao obter documentos:", error);
+  });

@@ -1,6 +1,13 @@
 import Cliente from "../../core/Cliente";
 import ClienteRepositorio from "../../core/ClienteRepositorio";
-import firebase from "../config";
+import firebase from "firebase/app";
+import "firebase/firestore";
+import firebaseConfig from "../ConfigFirebase";
+
+// Inicialize o Firebase
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 export default class ColecaoCliente implements ClienteRepositorio {
   #conversor = {
